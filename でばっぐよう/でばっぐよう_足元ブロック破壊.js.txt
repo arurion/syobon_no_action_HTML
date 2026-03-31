@@ -1,0 +1,84 @@
+function breakBlockUnderPlayer() {
+    // プレイヤーのワールド座標（中央X と 足元のY）
+    const p_cx = ma + fx + 1500;
+    const p_bottom = mb + fy + mnobib;
+
+    let targetType = null; // 'T'(空中ブロック) または 'S'(地面・土管)
+    let targetIndex = -1;
+    let minDistance = Infinity;
+
+    // 1. 空中のブロック (TMAX) を探す
+    for (let i = 0; i < TMAX; i++) {
+        if (ta[i] <= -900000) continue;
+
+        const b_left = ta[i];
+        const b_right = ta[i] + 3000;
+        const b_top = tb[i];
+        const b_cx = b_left + 1500;
+
+        // 判定ガバガバ化: 左右に1000(10px分)広げ、Y座標も上下に広く取る
+        if (p_cx > b_left - 1000 && p_cx < b_right + 1000) {
+            if (b_top > p_bottom - 2000 && b_top < p_bottom + 4000) {
+                const dist = Math.abs(p_cx - b_cx);
+                if (dist < minDistance) { // より近いものを優先
+                    minDistance = dist;
+                    targetType = 'T';
+                    targetIndex = i;
+                }
+            }
+        }
+    }
+
+    // 2. 地面・土管ブロック (SMAX) を探す
+    for (let i = 0; i < SMAX; i++) {
+        if (sa[i] <= -900000) continue;
+
+        const b_left = sa[i];
+        const b_right = sa[i] + sc[i];
+        const b_top = sb[i];
+        const b_cx = b_left + sc[i] / 2;
+
+        if (p_cx > b_left - 1000 && p_cx < b_right + 1000) {
+            if (b_top > p_bottom - 2000 && b_top < p_bottom + 4000) {
+                const dist = Math.abs(p_cx - b_cx);
+                if (dist < minDistance) { // より近いものを優先
+                    minDistance = dist;
+                    targetType = 'S';
+                    targetIndex = i;
+                }
+            }
+        }
+    }
+
+    // 3. 一番近かったものを1つだけ破壊する
+    if (targetType === 'T') {
+        const i = targetIndex;
+        ot(3);
+        eyobi(ta[i] + 1200, tb[i] + 1200,  300, -1000, 0, 160, 1000, 1000, 1, 120);
+        eyobi(ta[i] + 1200, tb[i] + 1200, -300, -1000, 0, 160, 1000, 1000, 1, 120);
+        eyobi(ta[i] + 1200, tb[i] + 1200,  240, -1400, 0, 160, 1000, 1000, 1, 120);
+        eyobi(ta[i] + 1200, tb[i] + 1200, -240, -1400, 0, 160, 1000, 1000, 1, 120);
+        ta[i] = -800000;
+        console.log(`空中ブロック(TMAX: ${i})を破壊しました！`);
+    } else if (targetType === 'S') {
+        const i = targetIndex;
+        ot(3);
+        eyobi(sa[i] + 1200, sb[i] + 1200,  300, -1000, 0, 160, 1000, 1000, 1, 120);
+        eyobi(sa[i] + 1200, sb[i] + 1200, -300, -1000, 0, 160, 1000, 1000, 1, 120);
+        eyobi(sa[i] + 1200, sb[i] + 1200,  240, -1400, 0, 160, 1000, 1000, 1, 120);
+        eyobi(sa[i] + 1200, sb[i] + 1200, -240, -1400, 0, 160, 1000, 1000, 1, 120);
+        sa[i] = -800000;
+        console.log(`地面/土管ブロック(SMAX: ${i})を破壊しました！`);
+    } else {
+        console.log("近くに壊せるブロックがありませんでした。");
+    }
+}
+
+// Bキーが押されたら実行する
+window.addEventListener('keydown', function(e) {
+    if (e.code === 'KeyB') {
+        breakBlockUnderPlayer();
+    }
+});
+
+console.log("デバッグ機能有効: [B] キーで真下のオブジェクト(空中ブロック・地面・土管)を破壊します。");

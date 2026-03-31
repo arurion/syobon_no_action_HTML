@@ -1,0 +1,43 @@
+/**
+ * ブロック召喚魔法
+ * @param {number} type - ブロックの種類ID
+ * @param {number} xtype - 追加設定（ヒント番号、スイッチの状態、バネの向きなど。任意）
+ * @param {number} xOff - プレイヤーからのX位置オフセット（任意）
+ * @param {number} yOff - プレイヤーからのY位置オフセット（任意）
+ */
+window.summonBlock = function(type, xtype = 0, xOff = 0, yOff = -4000) {
+  if (typeof tyobi !== 'function') {
+    console.error("tyobi関数が見つかりません。ゲーム実行中に実行してください。");
+    return;
+  }
+
+  // 現在のプレイヤー位置（世界座標）を計算
+  const targetWorldX = ma + fx + xOff;
+  const targetWorldY = mb + fy + yOff;
+
+  // tyobiは引数を100倍して格納するため、100で割った値を渡す
+  const tx = Math.floor(targetWorldX / 100);
+  const ty = Math.floor(targetWorldY / 100);
+
+  // 次に書き込まれるインデックスを保持
+  const index = tco;
+
+  // ブロックを生成 (内部で ta, tb, ttype がセットされ、tcoがインクリメントされる)
+  tyobi(tx, ty, type);
+
+  // 追加設定(txtype)を反映
+  // これにより、ヒントの内容やON/OFFスイッチの初期状態を指定可能
+  txtype[index] = xtype;
+
+  console.log(`Summoned: Block ID ${type} (txtype: ${xtype}) at index ${index} world coords [${targetWorldX}, ${targetWorldY}]`);
+};
+
+// 便利なクイックリストを表示
+console.log("%c--- ブロック召喚魔法(summonBlock)が有効になりました ---", "color: #ffff00; font-weight: bold;");
+console.log("使い方: summonBlock(種類ID, 追加設定ID)");
+console.log("主な種類IDリスト:");
+console.log(" 1: レンガ(壊れる), 2: ❓ブロック(コイン), 3: 叩いた後のブロック");
+console.log(" 7: 隠しブロック, 115: もろいブロック, 117: 音符ブロック");
+console.log(" 120: ジャンプ台, 130: ON/OFFスイッチ, 400: Pスイッチ");
+console.log(" 300: ヒントブロック (第2引数でメッセージID 1〜5などを指定)");
+console.log(" 800: コイン(単体)");

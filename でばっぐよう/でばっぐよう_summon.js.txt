@@ -1,0 +1,30 @@
+/**
+ * 敵召喚魔法
+ * @param {number} type - 敵の種類ID
+ * @param {number} xtype - 派生設定（任意、デフォルト0）
+ * @param {number} xOff - プレイヤーからのX位置オフセット（任意）
+ * @param {number} yOff - プレイヤーからのY位置オフセット（任意）
+ */
+window.summon = function(type, xtype = 0, xOff = 0, yOff = -3000) {
+  if (typeof ayobi !== 'function') {
+    console.error("ayobi関数が見つかりません。ゲーム実行中に実行してください。");
+    return;
+  }
+  // 現在のプレイヤー位置（世界座標）を計算
+  const targetX = ma + fx + xOff;
+  const targetY = mb + fy + yOff;
+
+  // 敵を生成 (引数: xa, xb, xc, xd, xnotm, xtype, xxtype)
+  ayobi(targetX, targetY, 0, 0, 0, type, xtype);
+
+  console.log(`Summoned: Enemy ID ${type} (xtype: ${xtype}) at world coords [${targetX}, ${targetY}]`);
+};
+
+// 便利なクイックリストを表示
+console.log("%c--- 召喚魔法(summon)が有効になりました ---", "color: #00ff00; font-weight: bold;");
+console.log("使い方: summon(敵ID, 派生ID)");
+console.log("主なIDリスト:");
+console.log(" 0: しょぼん, 1: こうら付き, 2: こうらのみ, 3: あらまき(落下)");
+console.log(" 4: スーパージエン, 5: クマー, 6: デフラグさん, 7: 大砲(ジエン)");
+console.log(" 8: スーパーブーン, 9: ファイア玉, 30: モララー, 86: ニャッスン");
+console.log(" 100: キノコ, 102: 毒キノコ, 110: 悪スター");

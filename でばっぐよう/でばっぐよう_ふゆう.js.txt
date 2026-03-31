@@ -1,0 +1,67 @@
+(function() {
+    window.cheatMode = false;
+
+    // FキーでチートモードのON/OFFを切り替え
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'KeyF') {
+            window.cheatMode = !window.cheatMode;
+            mhp = 1;
+            console.log("%cチート(浮遊)モード: " + (window.cheatMode ? "ON" : "OFF"), "color: yellow; font-size: 16px; font-weight: bold;");
+            
+            if (window.cheatMode) {
+                // 浮遊開始時に慣性をリセット
+                mc = 0; 
+                md = 0;
+            }
+        }
+    });
+
+    // 移動スピード（100倍座標系なので 500 = 5ピクセル/フレーム）
+    const speed = 500; 
+
+    function cheatLoop() {
+        requestAnimationFrame(cheatLoop);
+        
+        // ゲーム中かつチートモードONの時だけ処理
+        if (!window.cheatMode || main_state !== 1) return;
+
+        // 重力・慣性を強制的に打ち消す
+        mc = 0;
+        md = 0;
+        mkasok = 0;
+        
+        // 敵に触れても死なないように無敵時間を常に維持
+        mmutekitm = 10;
+        mhp = 99999;
+
+        // WASDキーによる移動処理
+        if (KEY['KeyW']) mb -= speed;
+        if (KEY['KeyS']) mb += speed;
+        if (KEY['KeyA']) { ma -= speed; mmuki = 0; }
+        if (KEY['KeyD']) { ma += speed; mmuki = 1; }
+
+        // 右方向への強引な画面スクロール追従
+        if (ma > mascrollmax && fzx < scrollx) {
+            const diff = ma - mascrollmax;
+            ma = mascrollmax;
+            fx += diff;
+            fzx += diff;
+        }
+
+        // 左画面外への飛び出し防止
+        if (ma < 100) ma = 100;
+        
+        // 下画面外（奈落）での強制死を防止
+        if (mb > 37000) mb = 37000;
+    }
+
+    requestAnimationFrame(cheatLoop);
+
+    console.log("%c--- 浮遊モード(debug)スクリプトを読み込みました ---", "color: #00ffff; font-weight: bold;");
+    console.log("「F」キー で浮遊モードのON/OFFを切り替えます。");
+    console.log("浮遊中は 「W」「A」「S」「D」キー で自由に移動できます（壁抜け・空中移動）。");
+    console.log("※壁の中にいる状態でFキーを押して解除すると、本家の仕様によりものすごい勢いで弾き出されたり圧死したりするので注意してください。");
+})();
+
+
+// このモード中に火の出る土管に入ったら面白いバグり方した
