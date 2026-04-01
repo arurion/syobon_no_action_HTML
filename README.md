@@ -10,6 +10,9 @@ GeminiとClaudeです。
 Cladue→Geminiに分析→Claude→Geminiに受け渡し→Gemini（別セッション）→Gemini→Gemini（別セッション）→Gemini→Claude→Gemini→…  
 といった感じに作成しました
 
+本家のREADMEはりーどみー.txtにあるよ
+
+
 I am porting Syobon no Action (Syobon action/Cat Mario) to HTML+JS.
 I am using assets and code from the original source.
 
@@ -21,6 +24,8 @@ For example, the message box (stop processing logic) and the ending credits (con
 The creation process went like this:
 Claude → Gemini for analysis → Claude → Gemini → Gemini (separate session) → Gemini → Gemini (separate session) → Gemini → Claude → Gemini → …
 
+The original README is in "りーどみー.txt".
+
 쇼본의 액션(Syobon no action/Syobon action/Cat Mario)을 HTML+JS로 이식합니다.
 원작의 소스 코드 등에 포함되어 있던 것들을 사용하고 있습니다.
 
@@ -31,3 +36,5 @@ Claude → Gemini for analysis → Claude → Gemini → Gemini (separate sessio
 
 Claude → Gemini 분석 → Claude → Gemini 전달 → Gemini(다른 세션) → Gemini → Gemini(다른 세션) → Gemini → Claude → Gemini → …
 와 같은 방식으로 제작했습니다.
+
+원조 README는 りーどみー.txt에 있어.
