@@ -26,6 +26,7 @@ The creation process went like this:
 Claude → Gemini for analysis → Claude → Gemini → Gemini (separate session) → Gemini → Gemini (separate session) → Gemini → Claude → Gemini → …
 
 The original README is in "りーどみー_en.txt".
+I had Gemini translate the "readme.txt" file into other languages on its own.
 
 Original author: tiku（ちく）
 
@@ -41,5 +42,6 @@ Claude → Gemini 분석 → Claude → Gemini 전달 → Gemini(다른 세션) 
 와 같은 방식으로 제작했습니다.
 
 원조 README는 りーどみー_ko.txt에 있어.
+"readme.txt"의 타 언어 번역은 Gemini에게 알아서 시켰어요.
 
 원작 저작자: 치쿠（ちく）
