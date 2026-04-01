@@ -25,7 +25,7 @@ For example, the message box (stop processing logic) and the ending credits (con
 The creation process went like this:
 Claude → Gemini for analysis → Claude → Gemini → Gemini (separate session) → Gemini → Gemini (separate session) → Gemini → Claude → Gemini → …
 
-The original README is in "りーどみー.txt".
+The original README is in "りーどみー_en.txt".
 
 Original author: tiku（ちく）
 
@@ -40,6 +40,6 @@ Original author: tiku（ちく）
 Claude → Gemini 분석 → Claude → Gemini 전달 → Gemini(다른 세션) → Gemini → Gemini(다른 세션) → Gemini → Claude → Gemini → …
 와 같은 방식으로 제작했습니다.
 
-원조 README는 りーどみー.txt에 있어.
+원조 README는 りーどみー_ko.txt에 있어.
 
 원작 저작자: 치쿠（ちく）
