@@ -27,7 +27,7 @@ Claude → Gemini for analysis → Claude → Gemini → Gemini (separate sessio
 
 The original README is in "りーどみー_en.txt".
 I had Gemini translate the "readme.txt" file into other languages on its own.
-※The contents are not translated at all, so plesae be careful.
+※The games are not translated at all, so plesae be careful.
 
 Original author: tiku（ちく）
 
@@ -44,6 +44,6 @@ Claude → Gemini 분석 → Claude → Gemini 전달 → Gemini(다른 세션) 
 
 원조 README는 りーどみー_ko.txt에 있어.
 "readme.txt"의 타 언어 번역은 Gemini에게 알아서 시켰어요.
-※내용은 전혀 번역 안 했으니까 주의해주새오
+※게임은 전혀 번역 안 했으니까 주의해주새오
 
 원작 저작자: 치쿠（ちく）
