@@ -20,3 +20,14 @@ For example, the message box (stop processing logic) and the ending credits (con
 
 The creation process went like this:
 Claude → Gemini for analysis → Claude → Gemini → Gemini (separate session) → Gemini → Gemini (separate session) → Gemini → Claude → Gemini → …
+
+쇼본의 액션(Syobon no action/Syobon action/Cat Mario)을 HTML+JS로 이식합니다.
+원작의 소스 코드 등에 포함되어 있던 것들을 사용하고 있습니다.
+
+이식하는 과정에서 사용한 모델은 Gemini와 Claude입니다.
+
+참고로 일부분에 개조된 내용이 포함되어 있습니다.
+예를 들면 메시지 박스(정지 처리 로직)나 엔드롤(내용) 등입니다.
+
+Claude → Gemini 분석 → Claude → Gemini 전달 → Gemini(다른 세션) → Gemini → Gemini(다른 세션) → Gemini → Claude → Gemini → …
+와 같은 방식으로 제작했습니다.
