@@ -25,7 +25,6 @@ const W = 480, H = 420;
 
 // ====== 定数(元コードそのまま) ======
 const SMAX=31, TMAX=641, EMAX=201, AMAX=24, BMAX=81, SRMAX=21, NMAX=41;
-const FXMAX=48000, FYMAX=42000;
 const pai = Math.PI;
 
 // ====== クロマキー処理済み画像キャッシュ ======
@@ -352,7 +351,7 @@ let stagerr=0,stagepoint=0;
 let over=0,ending=0;
 let scrollx=0,scrolly=0,kscroll=0;
 let fx=0,fy=0,fzx=0,fzy=0,fma=0,fmb=0;
-let fxmax=FXMAX,fymax=FYMAX;
+let fxmax=48000,fymax=42000;
 let blacktm=1,blackx=0;
 let mascrollmax=21000;
 let zxon=0,mainmsgtype=0,nokori=2;
@@ -509,7 +508,7 @@ function brockbreak(idx){ ta[idx]=-800000; }
 function tekizimen(){
   // 壁
   for(let tt2=0;tt2<SMAX;tt2++){
-    if(sa[tt2]-fx+sc[tt2]<-12010||sa[tt2]-fx>FXMAX+12100||stype[tt2]>99)continue;
+    if(sa[tt2]-fx+sc[tt2]<-12010||sa[tt2]-fx>fxmax+12100||stype[tt2]>99)continue;
     const x0=200,x2=1000,x1v=2000;
     const x8=sa[tt2]-fx,x9=sb[tt2]-fy;
     if(aa[t]+anobia[t]-fx>x8-x0&&aa[t]-fx<x8+x2&&ab[t]+anobib[t]-fy>x9+x1v*3/4&&ab[t]-fy<x9+sd[tt2]-x2){aa[t]=x8-x0-anobia[t]+fx;amuki[t]=0;}
@@ -521,7 +520,7 @@ function tekizimen(){
   for(let tt2=0;tt2<TMAX;tt2++){
     if(ta[tt2]<=-9e5)continue;
     const x8=ta[tt2]-fx,x9=tb[tt2]-fy;
-    if(ta[tt2]-fx+3000<-12010||ta[tt2]-fx>FXMAX+12000)continue;
+    if(ta[tt2]-fx+3000<-12010||ta[tt2]-fx>fxmax+12000)continue;
     if(atype[t]!==86&&atype[t]!==90&&ttype[tt2]!==140){
       if(ttype[tt2]!==7&&ttype[tt2]!==117){
         const x0=200,x1v=3000;
@@ -759,7 +758,7 @@ function stage(){
     let found=0;
     for(let i=0;i<SMAX;i++){
       if(stype[i]===500&&tyuukan>=1){
-        fx=sa[i]-FXMAX/2;fzx=fx;
+        fx=sa[i]-fxmax/2;fzx=fx;
         ma=sa[i]-fx;mb=sb[i]-fy;
         tyuukan--;found++;sa[i]=-80000000;
       }
@@ -1277,7 +1276,7 @@ function Mainprogram(){
     // 場外
     if(mtype<=9&&mhp>=1){
       if(ma<100){ma=100;mc=0;}
-      if(ma+mnobia>FXMAX){ma=FXMAX-mnobia;mc=0;}
+      if(ma+mnobia>fxmax){ma=fxmax-mnobia;mc=0;}
     }
     if(mb>=38000&&mhp>=0&&stagecolor===4){mhp=-2;mmsgtm=30;mmsgtype=55;}
     if(mb>=52000&&mhp>=0)mhp=-2;
@@ -1288,7 +1287,7 @@ function Mainprogram(){
       if(ta[t]<=-9e5)continue;
       const xx0=200,xx1=3000,xx2=1000,xx3=3000;
       const x8=ta[t]-fx,x9=tb[t]-fy;
-      if(ta[t]-fx+xx1<-10-xx3||ta[t]-fx>FXMAX+12000+xx3)continue;
+      if(ta[t]-fx+xx1<-10-xx3||ta[t]-fx>fxmax+12000+xx3)continue;
       if(mtype!==200&&mtype!==1&&mtype!==2){
         if(ttype[t]<1000&&ttype[t]!==800&&ttype[t]!==140&&ttype[t]!==141){
           if(!(mztype===1)){
@@ -1447,16 +1446,6 @@ function Mainprogram(){
         if(ttype[t]===140){
           if(mb>x9-xx0*2-2000&&mb<x9+xx1-xx0*2+2000&&ma+mnobia>x8-400&&ma<x8+xx1){ta[t]=-800000;sracttype[20]=1;sron[20]=1;stopSound(0);mtype=301;mtm=0;ot(16);}
         }
-        // Pスイッチ(コイン→ブロック)
-        if(ttype[t]===130)if(stageonoff===0)ttype[t]=131;
-        if(ttype[t]===131)if(stageonoff===1)ttype[t]=130;
-        // ヒントブロックカウント
-        if(ttype[t]===300){
-          if(txtype[t]>=500&&ta[t]>=-6000){
-            if(txtype[t]<=539)txtype[t]++;
-            if(txtype[t]>=540)ta[t]-=500;
-          }
-        }
       }else if(mtype===1){ // ← ここへ移動
         if(ma+mnobia>x8&&ma<x8+xx1&&mb+mnobib>x9&&mb<x9+xx1){
           ot(3);eyobi(ta[t]+1200,tb[t]+1200,300,-1000,0,160,1000,1000,1,120);eyobi(ta[t]+1200,tb[t]+1200,-300,-1000,0,160,1000,1000,1,120);
@@ -1464,11 +1453,22 @@ function Mainprogram(){
           brockbreak(t);
         }
       }
-    } 
+
+      // Pスイッチ(コイン→ブロック) 等、状態によらず更新される処理
+      if(ttype[t]===130)if(stageonoff===0)ttype[t]=131;
+      if(ttype[t]===131)if(stageonoff===1)ttype[t]=130;
+      // ヒントブロックカウント
+      if(ttype[t]===300){
+        if(txtype[t]>=500&&ta[t]>=-6000){
+          if(txtype[t]<=539)txtype[t]++;
+          if(txtype[t]>=540)ta[t]-=500;
+        }
+      }
+    }
 
     // ====== 壁判定(元コードそのまま) ======
     for(let si=0;si<SMAX;si++){
-      if(sa[si]-fx+sc[si]<-12000||sa[si]-fx>FXMAX)continue;
+      if(sa[si]-fx+sc[si]<-12000||sa[si]-fx>fxmax)continue;
       const xx0=200,xx1=2400,xx2=1000;
       let xx7=0;
       const x8=sa[si]-fx,x9=sb[si]-fy;
@@ -1483,7 +1483,7 @@ function Mainprogram(){
             sgtype[si]=1;sr[si]=0;
             if(sxtype[si]===4)sr[si]=100;
           }
-          if(sgtype[si]===1&&sb[si]<=FYMAX+18000){
+          if(sgtype[si]===1&&sb[si]<=fymax+18000){
             sr[si]+=120;if(sr[si]>=1600)sr[si]=1600;
             sb[si]+=sr[si];
             if(ma+mnobia>x8+xx0&&ma<x8+sc[si]-xx0&&mb+mnobib>x9&&mb<x9+sd[si]+xx0){mhp--;xx7=1;}
@@ -1577,7 +1577,7 @@ function Mainprogram(){
       if(sra[sri]<=-9e5)continue;
       const x10=sra[sri],x11=srb[sri],x12=src[sri];
       const x8=x10-fx,x9=x11-fy;
-      if(x8+x12<-10-12000||x8>FXMAX+12100)continue;
+      if(x8+x12<-10-12000||x8>fxmax+12100)continue;
       const xx0=500,xx1=Math.max(1200,md>=100?900+md:1200);
 
       srb[sri]+=sre[sri]; sre[sri]+=srf[sri];
@@ -1588,8 +1588,8 @@ function Mainprogram(){
         case 3:if(srmuki[sri]===0)srb[sri]-=srsok[sri];else srb[sri]+=srsok[sri];break;
         case 5:
           if(srmove[sri]===0)srmuki[sri]=0;else srmuki[sri]=1;
-          if(srb[sri]-fy<-2100)srb[sri]=FYMAX+fy+2000;
-          if(srb[sri]-fy>FYMAX+2000)srb[sri]=-2100+fy;
+          if(srb[sri]-fy<-2100)srb[sri]=fymax+fy+2000;
+          if(srb[sri]-fy>fymax+2000)srb[sri]=-2100+fy;
           break;
         case 6:if(sron[sri]===1)srf[sri]=40;break;
       }
@@ -1642,9 +1642,9 @@ function Mainprogram(){
       if(btm[bi2]>=0)btm[bi2]--;
       for(let ttv=0;ttv<=1;ttv++){
         xx[0]=0;xx[1]=0;
-        if(bz[bi2]===0&&btm[bi2]<0&&ba[bi2]-fx>=FXMAX+2000&&ba[bi2]-fx<FXMAX+2000+mc&&ttv===0){xx[0]=1;amuki[aco]=0;}
+        if(bz[bi2]===0&&btm[bi2]<0&&ba[bi2]-fx>=fxmax+2000&&ba[bi2]-fx<fxmax+2000+mc&&ttv===0){xx[0]=1;amuki[aco]=0;}
         if(bz[bi2]===0&&btm[bi2]<0&&ba[bi2]-fx>=-400-(anx[btype[bi2]]||3000)+mc&&ba[bi2]-fx<-400-(anx[btype[bi2]]||3000)&&ttv===1){xx[0]=1;xx[1]=1;amuki[aco]=1;}
-        if(bz[bi2]===1&&ba[bi2]-fx>=0-(anx[btype[bi2]]||3000)&&ba[bi2]-fx<=FXMAX+4000&&bb[bi2]-fy>=-9000&&bb[bi2]-fy<=FYMAX+4000&&btm[bi2]<0){xx[0]=1;bz[bi2]=0;}
+        if(bz[bi2]===1&&ba[bi2]-fx>=0-(anx[btype[bi2]]||3000)&&ba[bi2]-fx<=fxmax+4000&&bb[bi2]-fy>=-9000&&bb[bi2]-fy<=fymax+4000&&btm[bi2]<0){xx[0]=1;bz[bi2]=0;}
 
         if(xx[0]===1){
           btm[bi2]=401;xx[0]=0;
@@ -1659,7 +1659,7 @@ function Mainprogram(){
       if(aa[t]<=-9e5)continue;
       const ax=aa[t]-fx,ay=ab[t]-fy;
       const xx14=12000;
-      if(ax+anobia[t]<-xx14||ax>FXMAX+xx14||ay+anobib[t]<-10-9000||ay>FYMAX+20000)continue;
+      if(ax+anobia[t]<-xx14||ax>fxmax+xx14||ay+anobib[t]<-10-9000||ay>fymax+20000)continue;
       if(anotm[t]>=0)anotm[t]--;
       aacta[t]=0;aactb[t]=0;xx[10]=0;
 
@@ -1739,7 +1739,7 @@ function Mainprogram(){
           if(ad[t]>300)ad[t]=300;if(ad[t]<-300)ad[t]=-300;
           if(af[t]>=1200)atm[t]=1;if(af[t]<0)atm[t]=0;
           ab[t]+=ad[t];break;
-        case 9:azimentype[t]=5;ab[t]+=ad[t];ad[t]+=100;if(ab[t]>=FYMAX+1000)ad[t]=900;if(ab[t]>=FYMAX+12000){ab[t]=FYMAX;ad[t]=-2600;}break;
+        case 9:azimentype[t]=5;ab[t]+=ad[t];ad[t]+=100;if(ab[t]>=fymax+1000)ad[t]=900;if(ab[t]>=fymax+12000){ab[t]=fymax;ad[t]=-2600;}break;
         case 10:azimentype[t]=0;xx[10]=0;xx[11]=400;if(axtype[t]===0)xx[10]=xx[11];if(axtype[t]===1)xx[10]=-xx[11];break;
         case 30:
           atm[t]+=1;
@@ -1874,19 +1874,45 @@ function Mainprogram(){
             if(atype[t]===6){
               atm[t]=10;
             }
-            if(mhp===0){
-              // 大砲・こうら・なんかよくわからん鳥のセリフが欠落していたのを追加
-              const msgs2={0:rand(7)+1+1000+(stb-1)*10,4:rand(7)+1+1000+(stb-1)*10,7:rand(7)+1+1000+(stb-1)*10,1:15,3:20,5:21,
-                           9:0,10:0,80:30,81:30,82:31,84:0,85:85};
-              if(atype[t] in msgs2&&msgs2[atype[t]]){amsgtm[t]=60;amsgtype[t]=msgs2[atype[t]];}
-              if(atype[t]===31){amsgtm[t]=30;amsgtype[t]=24;}
-              if(atype[t]===9||atype[t]===10){mmsgtm=30;mmsgtype=54;}
-              if(atype[t]===84){mmsgtm=30;mmsgtype=50;}
-              if(atype[t]===80)atype[t]=81;
-              if(atype[t]===82){amsgtm[t]=20;amsgtype[t]=31;const x24=900;atype[t]=83;aa[t]-=x24+100;ab[t]-=x24;}
-            }
-            if(atype[t]===2&&axtype[t]>=1&&mmutekitm<=0){
-              amsgtm[t]=60;amsgtype[t]=18;
+            if(mhp===0){              // 大砲・こうら・なんかよくわからん鳥のセリフが欠落していたのを追加
+              if(atype[t]===0 || atype[t]===7){
+                amsgtm[t]=60; amsgtype[t]=rand(7)+1+1000+(stb-1)*10;
+              }
+              if(atype[t]===1){
+                amsgtm[t]=60; amsgtype[t]=15;
+              }
+              if(atype[t]===2 && axtype[t]>=1 && mmutekitm<=0){
+                amsgtm[t]=60; amsgtype[t]=18;
+              }
+              if(atype[t]===3){
+                amsgtm[t]=60; amsgtype[t]=20;
+              }
+              if(atype[t]===4){
+                amsgtm[t]=60; amsgtype[t]=rand(7)+1+1000+(stb-1)*10;
+              }
+              if(atype[t]===5){
+                amsgtm[t]=60; amsgtype[t]=21;
+              }
+              if(atype[t]===9 || atype[t]===10){
+                mmsgtm=30; mmsgtype=54;
+              }
+              if(atype[t]===31){
+                amsgtm[t]=30; amsgtype[t]=24;
+              }
+              if(atype[t]===80 || atype[t]===81){
+                amsgtm[t]=60; amsgtype[t]=30;
+              }
+              if(atype[t]===82){
+                amsgtm[t]=20; amsgtype[t]=31;
+                const x24=900; atype[t]=83; aa[t]-=x24+100; ab[t]-=x24;
+              }
+              if(atype[t]===84){
+                mmsgtm=30; mmsgtype=50;
+              }
+              if(atype[t]===85){
+                amsgtm[t]=60; amsgtype[t]=85;
+              }
+              if(atype[t]===80) atype[t]=81;
             }
             if(atype[t]===2){
               if(axtype[t]===0){if(ma+mnobia>pax+px0*2&&ma<pax+anobia[t]/2-px0*4){axtype[t]=1;amuki[t]=1;aa[t]=ma+mnobia+fx+mc;mmutekitm=5;}else{axtype[t]=1;amuki[t]=0;aa[t]=ma-anobia[t]+fx-mc;mmutekitm=5;}}else mhp-=1;
@@ -1999,9 +2025,9 @@ function rpaint(){
     // 背景オブジェクト
     for(let ni=0;ni<NMAX;ni++){
       if(na[ni]<=-9e5)continue;
+      if(na[ni]-fx+16000<-10 || na[ni]-fx>fxmax || nb[ni]-fy+16000<-10 || 16000>fymax)continue;
       const nx2=(na[ni]-fx)/100,ny2=(nb[ni]-fy)/100;
       const nt=ntype[ni];
-      if(nx2+160<-10||nx2>W||ny2+160<-10||ny2>H)continue;
       if(nt!==3)drawimage(nt,4,nx2,ny2);
       else drawimage(nt,4,nx2-5,ny2);
       if(nt===100){setcolor(255,255,255);str('51',nx2+fma,ny2+fmb);}
@@ -2012,9 +2038,9 @@ function rpaint(){
     // エフェクト
     for(let ei=0;ei<EMAX;ei++){
       if(ea[ei]<=-9e5||etm[ei]<0)continue;
+      if(ea[ei]-fx+Math.floor(enobia[ei]/100)*100<-10 || eb[ei]-fy>fxmax || eb[ei]-fy+Math.floor(enobib[ei]/100)*100<-8010 || Math.floor(enobib[ei]/100)>fymax)continue;
       const ex2=(ea[ei]-fx)/100,ey2=(eb[ei]-fy)/100;
       const ew=enobia[ei]/100,eh=enobib[ei]/100;
-      if(ex2+ew*100<-10||ex2>W||ey2+eh*100<-10-80||ey2>W)continue;
       if(egtype[ei]===0)drawimage(0,2,ex2,ey2);
       else if(egtype[ei]===1){
         if(stagecolor<=1||stagecolor===3)setcolor(9*16,6*16,3*16);
@@ -2035,9 +2061,9 @@ function rpaint(){
     // リフト
     for(let sri=0;sri<SRMAX;sri++){
       if(sra[sri]<=-9e5)continue;
+      if(sra[sri]-fx+src[sri]<-12010 || sra[sri]-fx>fxmax+12100 || Math.floor(src[sri]/100)<1)continue;
       const srx=(sra[sri]-fx)/100,sry=(srb[sri]-fy)/100;
       const srw=src[sri]/100;
-      if(srx+srw<-10||srx>W+121||srw<1)continue;
       const sp=srsp[sri];
       if(sp<=9||sp>=20){
         setcolor(sp===2?0:sp===21?180:220, sp===2?220:sp===21?180:220, sp===2?0:sp===21?180:0);
@@ -2067,10 +2093,9 @@ function rpaint(){
     // 敵
     for(let ai=0;ai<AMAX;ai++){
       if(aa[ai]<=-9e5)continue;
+      if(aa[ai]-fx+Math.floor(anobia[ai]/100)*100<-3010 || ab[ai]-fy>fxmax+3000 || ab[ai]-fy+Math.floor(anobib[ai]/100)*100<-10 || Math.floor(anobib[ai]/100)>fymax)continue;
       const ax2=(aa[ai]-fx)/100,ay2=(ab[ai]-fy)/100;
       const aw2=anobia[ai]/100,ah2=anobib[ai]/100;
-      const xx14v=120;
-      if(ax2+aw2<-xx14v||ax2>W+xx14v||ay2+ah2<-10||ay2>W+30)continue;
       if(amuki[ai]===1)mirror=1;
       const at=atype[ai];
       // 回転スプライト
@@ -2104,8 +2129,8 @@ function rpaint(){
 // ブロック
     for(let bi2=0;bi2<TMAX;bi2++){
       if(ta[bi2]<=-9e5)continue;
+      if(ta[bi2]-fx+3200<-10 || tb[bi2]-fy>fxmax)continue;
       const bx2=(ta[bi2]-fx)/100,by2=(tb[bi2]-fy)/100;
-      if(bx2+32<-10||bx2>W)continue;
       const col9=stagecolor===2?30:stagecolor===4?60:0;
       const bt=ttype[bi2],xt=txtype[bi2];
       if(bt<100){drawimage(bt+col9,1,bx2,by2);}
@@ -2128,9 +2153,9 @@ function rpaint(){
     // 地面・壁(1パス目)
     for(let si=0;si<SMAX;si++){
       if(sa[si]<=-9e5)continue;
+      if(sa[si]-fx+sc[si]<-10 || sa[si]-fx>fxmax+1100)continue;
       const sx2=(sa[si]-fx)/100,sy2=(sb[si]-fy)/100;
       const sw2=sc[si]/100,sh2=sd[si]/100;
-      if(sx2+sw2<-10||sx2>W+11)continue;
       const st=stype[si],xt=sxtype[si];
       if(st===0){setcolor(40,200,40);fillrect(sx2,sy2,sw2,sh2);drawrect(sx2,sy2,sw2,sh2);}
       else if(st===1){setcolor(0,230,0);fillrect(sx2,sy2,sw2,sh2);setc0();drawrect(sx2,sy2,sw2,sh2);}
@@ -2159,9 +2184,9 @@ function rpaint(){
     // 地面2パス目(上書き)
     for(let si=0;si<SMAX;si++){
       if(sa[si]<=-9e5)continue;
+      if(sa[si]-fx+sc[si]<-10 || sa[si]-fx>fxmax+1100)continue;
       const sx2=(sa[si]-fx)/100,sy2=(sb[si]-fy)/100;
       const sw2=sc[si]/100,sh2=sd[si]/100;
-      if(sx2+sw2<-10||sx2>W+11)continue;
       const st=stype[si];
       if(st===40){setcolor(0,230,0);fillrect(sx2,sy2+1,sw2,sh2);setc0();drawrect(sx2,sy2+1,sw2,sh2);}
       else if(st===50){setcolor(0,230,0);fillrect(sx2+5,sy2+30,50,sh2-30);setc0();drawline(sx2+5,sy2+30,sx2+5,sy2+sh2);drawline(sx2+55,sy2+30,sx2+55,sy2+sh2);setcolor(0,230,0);fillrect(sx2,sy2+1,60,30);setc0();drawrect(sx2,sy2+1,60,30);}
@@ -2171,6 +2196,7 @@ function rpaint(){
     // ファイアバー
     for(let ai=0;ai<AMAX;ai++){
       if(atype[ai]!==87)continue;
+      if(aa[ai]-fx+Math.floor(anobia[ai]/100)*100<-12010 || ab[ai]-fy>fxmax+12000 || ab[ai]-fy+Math.floor(anobib[ai]/100)*100<-10 || Math.floor(anobib[ai]/100)>fymax)continue;
       const ax2=(aa[ai]-fx)/100,ay2=(ab[ai]-fy)/100;
       for(let fbi=0;fbi<=axtype[ai]%100;fbi++){
         xx[26]=18;
@@ -2213,16 +2239,16 @@ function rpaint(){
       if(tmsgtype===1){
         tmsgy+=1200;
         if(tmsgtm===1){tmsgtm=80000000;tmsgtype=2;}
+        tmsgtm--;
       }
       else if(tmsgtype===2){
-        tmsgy=0; tmsgtype=3; tmsgtm=16; // 15+1
+        // 待機中。描画のみ（状態遷移はMainprogramで行う）
       }
       else if(tmsgtype===3){
         tmsgy+=1200;
-        // if(tmsgtm===15) WaitKey(); は次フレームのMainprogram先頭でエミュレート
         if(tmsgtm===1){tmsgtm=0;tmsgtype=0;tmsgy=0;}
+        tmsgtm--;
       }
-      tmsgtm--;
     }
 
     // mainmsgtype
