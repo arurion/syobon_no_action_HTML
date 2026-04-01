@@ -44,6 +44,6 @@ Claude → Gemini 분석 → Claude → Gemini 전달 → Gemini(다른 세션) 
 
 원조 README는 りーどみー_ko.txt에 있어.
 "readme.txt"의 타 언어 번역은 Gemini에게 알아서 시켰어요.
-※게임은 전혀 번역 안 했으니까 주의해주새오
+※게임은 전혀 번역 안 했으니까 주의해주세ㅛㅇ 
 
 원작 저작자: 치쿠（ちく）
