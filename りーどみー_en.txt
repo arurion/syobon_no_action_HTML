@@ -1,0 +1,51 @@
+This game is ver0.80
+
+
+・Introduction
+
+This game is several times more enjoyable to watch someone who has never played it before than to play it yourself.
+
+
+・Terms of Use
+
+Players under the age of 12 are prohibited from playing.
+
+Warning: Playing this game may cause you to lose faith in humanity.
+
+Warning: Playing this game may cause significant stress.
+
+The creator takes no responsibility for any problems caused by this game.
+
+If you distribute this game to the public, please clearly credit the author: tiku.
+
+
+
+・Controls
+
+Left / Right　…　Move
+
+Up or Z key　…　Jump
+
+Hold Space　…　2x Speed
+
+O key  …　Self-destruct
+
+ESC　…　Quit
+
+F1　…　Return to Title
+
+1–4 keys (at Title)　…　Select Stage
+
+0 key　…　Mystery Dungeon (Warning: May contain bugs)
+
+
+
+For bugs, issues, or feedback, please contact:
+
+http://mobile-bbs.com/bbs/bbs.php?id=kafebhizu
+
+(Note: I don't have much motivation to fix issues, but...)
+
+
+
+								From tiku
