@@ -82,11 +82,23 @@ const OTO = {
 let currentBGMKey = null;
 let currentBGMAudio = null;
 
+// 本家の CheckSoundMem を再現 (再生中なら 1 を返す)
+function CheckSoundMem(n) {
+  const k = OTO[n];
+  if (!k || !SND[k]) return 0;
+  const a = SND[k];
+  // paused や ended が false なら再生中と判定
+  if (!a.paused && !a.ended) return 1;
+  return 0;
+}
+
 function ot(n) {
   const k = OTO[n]; if (!k||!SND[k]) return;
   try {
-    const a = SND[k].cloneNode ? SND[k].cloneNode() : new Audio(SND[k].src);
-    a.volume=0.6; a.play().catch(()=>{});
+    const a = SND[k]; // クローンせず1つのAudio要素を使い回す
+    a.volume=0.6;
+    a.currentTime=0; // DXLibと同様に頭出しして再生をやり直す（多重再生を防ぐ）
+    a.play().catch(()=>{});
   } catch(e) {}
 }
 
@@ -486,8 +498,9 @@ function ayobi(xa,xb,xc,xd2,xnotm,xtype,xxtype){
       anobia[aco]=anx[xtype]||3000;
       anobib[aco]=any[xtype]||3000;
 
-      if(xtype===7) ot(10);
-      if(xtype===10) ot(18);
+      // 再生中でない場合のみ鳴らす（毎フレーム頭出しされるのを防ぐ）
+      if(xtype===7 && CheckSoundMem(10)===0) ot(10);
+      if(xtype===10 && CheckSoundMem(18)===0) ot(18);
 
       azimentype[aco]=1;
       // C++版では ae, af, atm 等はここで初期化されていない（stageclsで0になるのみ）
