@@ -2,7 +2,14 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="ブラウザで遊べる「しょぼんのアクション」のHTML+JS移植版です。">
 <title>しょぼんのアクション</title>
+<link rel="icon" href="icon.ico.svg" type="image/svg+xml">
+<meta property="og:title" content="しょぼんのアクション">
+<meta property="og:url" content="https://arurion.github.io/syobon_no_action_HTML/">
+<meta property="og:image" content="https://arurion.github.io/syobon_no_action_HTML/ogp.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:#000;display:flex;justify-content:center;align-items:center;height:100vh;overflow:hidden;}
@@ -10,7 +17,9 @@ canvas{display:block;image-rendering:pixelated;}
 </style>
 </head>
 <body>
-<canvas id="c" width="480" height="420"></canvas>
+<main style="display: contents;">
+  <canvas id="c" width="480" height="420"></canvas>
+</main>
 <script>
 // ============================================================
 // しょぼんのアクション JavaScript移植版
