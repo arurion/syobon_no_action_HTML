@@ -1651,11 +1651,10 @@ function Mainprogram(){
       if(sracttype[sri]===3||sracttype[sri]===5){if(srmuki[sri]===0)srb[sri]-=srsok[sri];else srb[sri]+=srsok[sri];}
 
       // リフト上の敵
-      for(let tt2=0;tt2<AMAX;tt2++){
-        if(azimentype[tt2]===1){
-          const x11v=srb[sri];
-          if(aa[tt2]+anobia[tt2]-fx>x8+xx0&&aa[tt2]-fx<x8+x12-xx0&&ab[tt2]+anobib[tt2]>x11v-100&&ab[tt2]+anobib[tt2]<x11v+xx1+500&&ad[tt2]>=-100){
-            ab[tt2]=x9-anobib[tt2]+100;ad[tt2]=0;axzimen[tt2]=1;
+      for(tt=0;tt<AMAX;tt++){
+        if(azimentype[tt]===1){
+          if(aa[tt]+anobia[tt]-fx>xx[8]+xx[0]&&aa[tt]-fx<xx[8]+xx[12]-xx[0]&&ab[tt]+anobib[tt]>xx[11]-100&&ab[tt]+anobib[tt]<xx[11]+xx[1]+500&&ad[tt]>=-100){
+            ab[tt]=xx[9]-anobib[tt]+100;ad[tt]=0;axzimen[tt]=1;
           }
         }
       }
@@ -1703,10 +1702,14 @@ function Mainprogram(){
           if(axtype[t]>=1)xx[10]=xx[17];
           // こうら当たり
           if(axtype[t]>=1){
-            for(let tt2=0;tt2<AMAX;tt2++){
-              if(t===tt2)continue;
-              const x8=aa[tt2]-fx,x9=ab[tt2]-fy;
-              if(aa[t]+anobia[t]-fx>x8+500&&aa[t]-fx<x8+anobia[tt2]-500&&ab[t]+anobib[t]-fy>x9-800&&ab[t]+anobib[t]-fy<x9+1600*3+1500){aa[tt2]=-800000;ot(6);}
+            for(tt=0;tt<AMAX;tt++){
+              xx[0]=250;xx[5]=-800;xx[12]=0;xx[1]=1600;
+              xx[8]=aa[tt]-fx;xx[9]=ab[tt]-fy;
+              if(t!==tt){
+                if(aa[t]+anobia[t]-fx>xx[8]+xx[0]*2&&aa[t]-fx<xx[8]+anobia[tt]-xx[0]*2&&ab[t]+anobib[t]-fy>xx[9]+xx[5]&&ab[t]+anobib[t]-fy<xx[9]+xx[1]*3+xx[12]+1500){
+                  aa[tt]=-800000;ot(6);
+                }
+              }
             }
           }
           break;
@@ -1734,17 +1737,17 @@ function Mainprogram(){
           }
           // ポール強奪イベント
           if(axtype[t]===1){
-            for(let tt2=0;tt2<SMAX;tt2++){
-              if(stype[tt2]===300){
-                if(aa[t]-fx>=-8000 && aa[t]>=sa[tt2]+2000 && aa[t]<=sa[tt2]+3600 && axzimen[t]===1){
-                  sa[tt2]=-800000; atm[t]=100;
+            for(tt=0;tt<SMAX;tt++){
+              if(stype[tt]===300){
+                if(aa[t]-fx>=-8000 && aa[t]>=sa[tt]+2000 && aa[t]<=sa[tt]+3600 && axzimen[t]===1){
+                  sa[tt]=-800000; atm[t]=100;
                 }
               }
             }
             if(atm[t]===100){
               eyobi(aa[t],ab[t]-28500,0,0,0,0,1000,28800,4,20);
               if(mtype===300){mtype=0;stopSound(11);bgmchange(100);playBGM();}
-              for(let t1=0;t1<SMAX;t1++){if(stype[t1]===104)sa[t1]=-80000000;}
+              for(t1=0;t1<SMAX;t1++){if(stype[t1]===104)sa[t1]=-80000000;}
             }
             if(atm[t]===120){
               eyobi(aa[t],ab[t]-28500,600,-1200,0,160,1000,28800,4,240);
@@ -1754,12 +1757,14 @@ function Mainprogram(){
           }
           if(atm[t]>=220){atm[t]=0;amuki[t]=0;}
           // 投げる処理
-          for(let tt2=0;tt2<AMAX;tt2++){
-            if(t===tt2 || atype[tt2]<100)continue;
-            const x8=aa[tt2]-fx,x9=ab[tt2]-fy;
-            if(aa[t]+anobia[t]-fx>x8+500 && aa[t]-fx<x8+anobia[tt2]-500 && ab[t]+anobib[t]-fy>x9-800 && ab[t]+anobib[t]-fy<x9+1600*3+1500){
-              amuki[tt2]=1;aa[tt2]=aa[t]+300;ab[tt2]=ab[t]-3000;abrocktm[tt2]=120;
-              atm[t]=200;amuki[t]=1;
+          for(tt=0;tt<AMAX;tt++){
+            xx[0]=250;xx[5]=-800;xx[12]=0;xx[1]=1600;
+            xx[8]=aa[tt]-fx;xx[9]=ab[tt]-fy;
+            if(t!==tt && atype[tt]>=100){
+              if(aa[t]+anobia[t]-fx>xx[8]+xx[0]*2 && aa[t]-fx<xx[8]+anobia[tt]-xx[0]*2 && ab[t]+anobib[t]-fy>xx[9]+xx[5] && ab[t]+anobib[t]-fy<xx[9]+xx[1]*3+xx[12]+1500){
+                amuki[tt]=1;aa[tt]=aa[t]+300;ab[tt]=ab[t]-3000;abrocktm[tt]=120;
+                atm[t]=200;amuki[t]=1;
+              }
             }
           }
           break;
@@ -1777,10 +1782,14 @@ function Mainprogram(){
           atm[t]+=1;
           if(axtype[t]===0){
             if(atm[t]===50&&mb>=6000){ac[t]=300;ad[t]-=1600;ab[t]-=1000;}
-            for(let tt2=0;tt2<AMAX;tt2++){
-              if(t===tt2||atype[tt2]!==102)continue;
-              const x8=aa[tt2]-fx,x9=ab[tt2]-fy;
-              if(aa[t]+anobia[t]-fx>x8+500&&aa[t]-fx<x8+anobia[tt2]-500&&ab[t]+anobib[t]-fy>x9-800&&ab[t]+anobib[t]-fy<x9+1600*3+1500){aa[tt2]=-800000;axtype[t]=1;ad[t]=-1600;amsgtm[t]=30;amsgtype[t]=25;}
+            for(tt=0;tt<AMAX;tt++){
+              xx[0]=250;xx[5]=-800;xx[12]=0;xx[1]=1600;
+              xx[8]=aa[tt]-fx;xx[9]=ab[tt]-fy;
+              if(t!==tt && atype[tt]===102){
+                if(aa[t]+anobia[t]-fx>xx[8]+xx[0]*2&&aa[t]-fx<xx[8]+anobia[tt]-xx[0]*2&&ab[t]+anobib[t]-fy>xx[9]+xx[5]&&ab[t]+anobib[t]-fy<xx[9]+xx[1]*3+xx[12]+1500){
+                  aa[tt]=-800000;axtype[t]=1;ad[t]=-1600;amsgtm[t]=30;amsgtype[t]=25;
+                }
+              }
             }
           }
           if(axtype[t]===1){azimentype[t]=0;ab[t]+=ad[t];ad[t]+=120;}
@@ -1827,17 +1836,18 @@ function Mainprogram(){
           xx[10]=100;
           // ほかの敵を巨大化
           if(axtype[t]===2){
-            for(let tt2=0; tt2<AMAX; tt2++){
-              if(t===tt2) continue;
-              const x8 = aa[tt2]-fx, x9 = ab[tt2]-fy;
-              const x0 = 250, x5 = -800, x1 = 1600;
-              if(aa[t]+anobia[t]-fx > x8+x0*2 && aa[t]-fx < x8+anobia[tt2]-x0*2 && ab[t]+anobib[t]-fy > x9+x5 && ab[t]+anobib[t]-fy < x9+x1*3){
-                if(atype[tt2]===0 || atype[tt2]===4){
-                  atype[tt2]=90;
-                  anobia[tt2]=6400; anobib[tt2]=6300; axtype[tt2]=0;
-                  aa[tt2]-=1050; ab[tt2]-=1050;
-                  ot(9); // パワーアップ音
-                  aa[t]=-90000000; // キノコ消滅
+            for(tt=0;tt<AMAX;tt++){
+              xx[0]=250;xx[5]=-800;xx[12]=0;xx[1]=1600;
+              xx[8]=aa[tt]-fx;xx[9]=ab[tt]-fy;
+              if(t!==tt){
+                if(aa[t]+anobia[t]-fx>xx[8]+xx[0]*2 && aa[t]-fx<xx[8]+anobia[tt]-xx[0]*2 && ab[t]+anobib[t]-fy>xx[9]+xx[5] && ab[t]+anobib[t]-fy<xx[9]+xx[1]*3+xx[12]){
+                  if(atype[tt]===0 || atype[tt]===4){
+                    atype[tt]=90;
+                    anobia[tt]=6400; anobib[tt]=6300; axtype[tt]=0;
+                    aa[tt]-=1050; ab[tt]-=1050;
+                    ot(9); // パワーアップ音
+                    aa[t]=-90000000; // キノコ消滅
+                  }
                 }
               }
             }
