@@ -531,62 +531,70 @@ function brockbreak(idx){ ta[idx]=-800000; }
 // 注意: tは外側ループのインデックス(現在処理中の敵)
 function tekizimen(){
   // 壁
-  for(let tt2=0;tt2<SMAX;tt2++){
-    if(sa[tt2]-fx+sc[tt2]<-12010||sa[tt2]-fx>fxmax+12100||stype[tt2]>99)continue;
-    const x0=200,x2=1000,x1v=2000;
-    const x8=sa[tt2]-fx,x9=sb[tt2]-fy;
-    if(aa[t]+anobia[t]-fx>x8-x0&&aa[t]-fx<x8+x2&&ab[t]+anobib[t]-fy>x9+x1v*3/4&&ab[t]-fy<x9+sd[tt2]-x2){aa[t]=x8-x0-anobia[t]+fx;amuki[t]=0;}
-    if(aa[t]+anobia[t]-fx>x8+sc[tt2]-x0&&aa[t]-fx<x8+sc[tt2]+x0&&ab[t]+anobib[t]-fy>x9+x1v*3/4&&ab[t]-fy<x9+sd[tt2]-x2){aa[t]=x8+sc[tt2]+x0+fx;amuki[t]=1;}
-    if(aa[t]+anobia[t]-fx>x8+x0&&aa[t]-fx<x8+sc[tt2]-x0&&ab[t]+anobib[t]-fy>x9&&ab[t]+anobib[t]-fy<x9+sd[tt2]-x1v&&ad[t]>=-100){ab[t]=sb[tt2]-fy-anobib[t]+100+fy;ad[t]=0;axzimen[t]=1;}
-    if(aa[t]+anobia[t]-fx>x8+x0&&aa[t]-fx<x8+sc[tt2]-x0&&ab[t]-fy>x9+sd[tt2]-x1v&&ab[t]-fy<x9+sd[tt2]+x0){ab[t]=x9+sd[tt2]+x0+fy;if(ad[t]<0)ad[t]=-ad[t]*2/3;}
-  }
-  // ブロック
-  for(let tt2=0;tt2<TMAX;tt2++){
-    if(ta[tt2]<=-9e5)continue;
-    const x8=ta[tt2]-fx,x9=tb[tt2]-fy;
-    if(ta[tt2]-fx+3000<-12010||ta[tt2]-fx>fxmax+12000)continue;
-    if(atype[t]!==86&&atype[t]!==90&&ttype[tt2]!==140){
-      if(ttype[tt2]!==7&&ttype[tt2]!==117){
-        const x0=200,x1v=3000;
-        if(aa[t]+anobia[t]-fx>x8+x0&&aa[t]-fx<x8+x1v-x0&&ab[t]+anobib[t]-fy>x9&&ab[t]+anobib[t]-fy<x9+x1v&&ad[t]>=-100){
-          ab[t]=x9-anobib[t]+100+fy;ad[t]=0;axzimen[t]=1;
-          if(ttype[tt2]===120){ad[t]=-1600;azimentype[t]=30;}
-        }
-      }
-      if(ttype[tt2]!==117){
-        const x0=200,x1v=3000;
-        if(aa[t]+anobia[t]-fx>x8+x0&&aa[t]-fx<x8+x1v-x0&&ab[t]-fy>x9+x1v-x1v&&ab[t]-fy<x9+x1v+x0){
-          ab[t]=x9+x1v+x0+fy;if(ad[t]<0)ad[t]=0;
-        }
-      }
-      // 左右
-      let x27=0;
-      const x0=200,x1v=3000,x2=1000;
-      if((atype[t]>=100||(ttype[tt2]!==7||ttype[tt2]===7&&atype[t]===2))&&ttype[tt2]!==117){
-        if(aa[t]+anobia[t]-fx>x8&&aa[t]-fx<x8+x2&&ab[t]+anobib[t]-fy>x9+x1v/2-x0&&ab[t]-fy<x9+x2){aa[t]=x8-anobia[t]+fx;ac[t]=0;amuki[t]=0;x27=1;}
-        if(aa[t]+anobia[t]-fx>x8+x1v-x0*2&&aa[t]-fx<x8+x1v&&ab[t]+anobib[t]-fy>x9+x1v/2-x0&&ab[t]-fy<x9+x2){aa[t]=x8+x1v+fx;ac[t]=0;amuki[t]=1;x27=1;}
-        // こうらブレイク
-        if(x27===1&&(ttype[tt2]===7||ttype[tt2]===1)&&atype[t]===2){
-          if(ttype[tt2]===7){ot(4);ttype[tt2]=3;eyobi(ta[tt2]+10,tb[tt2],0,-800,0,40,3000,3000,0,16);}
-          else if(ttype[tt2]===1){ot(3);eyobi(ta[tt2]+1200,tb[tt2]+1200,300,-1000,0,160,1000,1000,1,120);eyobi(ta[tt2]+1200,tb[tt2]+1200,-300,-1000,0,160,1000,1000,1,120);eyobi(ta[tt2]+1200,tb[tt2]+1200,240,-1400,0,160,1000,1000,1,120);eyobi(ta[tt2]+1200,tb[tt2]+1200,-240,-1400,0,160,1000,1000,1,120);brockbreak(tt2);}
-        }
+  for(tt=0;tt<SMAX;tt++){
+    if(sa[tt]-fx+sc[tt]>=-12010 && sa[tt]-fx<=fxmax+12100 && stype[tt]<=99){
+      xx[0]=200;xx[2]=1000;
+      xx[1]=2000;
+
+      xx[8]=sa[tt]-fx;xx[9]=sb[tt]-fy;
+      if(aa[t]+anobia[t]-fx>xx[8]-xx[0]&&aa[t]-fx<xx[8]+xx[2]&&ab[t]+anobib[t]-fy>xx[9]+xx[1]*3/4&&ab[t]-fy<xx[9]+sd[tt]-xx[2]){aa[t]=xx[8]-xx[0]-anobia[t]+fx;amuki[t]=0;}
+      if(aa[t]+anobia[t]-fx>xx[8]+sc[tt]-xx[0]&&aa[t]-fx<xx[8]+sc[tt]+xx[0]&&ab[t]+anobib[t]-fy>xx[9]+xx[1]*3/4&&ab[t]-fy<xx[9]+sd[tt]-xx[2]){aa[t]=xx[8]+sc[tt]+xx[0]+fx;amuki[t]=1;}
+
+      if(aa[t]+anobia[t]-fx>xx[8]+xx[0]&&aa[t]-fx<xx[8]+sc[tt]-xx[0]&&ab[t]+anobib[t]-fy>xx[9]&&ab[t]+anobib[t]-fy<xx[9]+sd[tt]-xx[1]&&ad[t]>=-100){ab[t]=sb[tt]-fy-anobib[t]+100+fy;ad[t]=0;axzimen[t]=1;}
+
+      if(aa[t]+anobia[t]-fx>xx[8]+xx[0]&&aa[t]-fx<xx[8]+sc[tt]-xx[0]&&ab[t]-fy>xx[9]+sd[tt]-xx[1]&&ab[t]-fy<xx[9]+sd[tt]+xx[0]){
+        ab[t]=xx[9]+sd[tt]+xx[0]+fy;if(ad[t]<0){ad[t]=-ad[t]*2/3;}
       }
     }
-    // atype=86,90 ブロック破壊
-    if(atype[t]===86||atype[t]===90){
-      const x1v=3000;
-      if(aa[t]+anobia[t]-fx>x8&&aa[t]-fx<x8+x1v&&ab[t]+anobib[t]-fy>x9&&ab[t]-fy<x9+x1v){
-        ot(3);
-        eyobi(ta[tt2]+1200,tb[tt2]+1200,300,-1000,0,160,1000,1000,1,120);eyobi(ta[tt2]+1200,tb[tt2]+1200,-300,-1000,0,160,1000,1000,1,120);
-        eyobi(ta[tt2]+1200,tb[tt2]+1200,240,-1400,0,160,1000,1000,1,120);eyobi(ta[tt2]+1200,tb[tt2]+1200,-240,-1400,0,160,1000,1000,1,120);
-        brockbreak(tt2);
+  }
+
+  // ブロック
+  for(tt=0;tt<TMAX;tt++){
+    if(ta[tt]<=-9e5)continue;
+    xx[0]=200;xx[1]=3000;xx[2]=1000;
+    xx[8]=ta[tt]-fx;xx[9]=tb[tt]-fy;
+    if(ta[tt]-fx+xx[1]>=-12010&&ta[tt]-fx<=fxmax+12000){
+      if(atype[t]!==86&&atype[t]!==90&&ttype[tt]!==140){
+        // 上
+        if(ttype[tt]!==7){
+          if(!(ttype[tt]===117)){
+            if(aa[t]+anobia[t]-fx>xx[8]+xx[0]&&aa[t]-fx<xx[8]+xx[1]-xx[0]*1&&ab[t]+anobib[t]-fy>xx[9]&&ab[t]+anobib[t]-fy<xx[9]+xx[1]&&ad[t]>=-100){
+              ab[t]=xx[9]-anobib[t]+100+fy;ad[t]=0;axzimen[t]=1;
+              if(ttype[tt]===120){ad[t]=-1600;azimentype[t]=30;}
+            }
+          }
+        }
+        // 下
+        if(ttype[tt]!==117){
+          if(aa[t]+anobia[t]-fx>xx[8]+xx[0]&&aa[t]-fx<xx[8]+xx[1]-xx[0]*1&&ab[t]-fy>xx[9]+xx[1]-xx[1]&&ab[t]-fy<xx[9]+xx[1]+xx[0]){
+            ab[t]=xx[9]+xx[1]+xx[0]+fy;if(ad[t]<0){ad[t]=0;}
+          }
+        }
+        // 左右
+        xx[27]=0;
+        if((atype[t]>=100||(ttype[tt]!==7||ttype[tt]===7&&atype[t]===2))&&ttype[tt]!==117){
+          if(aa[t]+anobia[t]-fx>xx[8]&&aa[t]-fx<xx[8]+xx[2]&&ab[t]+anobib[t]-fy>xx[9]+xx[1]/2-xx[0]&&ab[t]-fy<xx[9]+xx[2]){aa[t]=xx[8]-anobia[t]+fx;ac[t]=0;amuki[t]=0;xx[27]=1;}
+          if(aa[t]+anobia[t]-fx>xx[8]+xx[1]-xx[0]*2&&aa[t]-fx<xx[8]+xx[1]&&ab[t]+anobib[t]-fy>xx[9]+xx[1]/2-xx[0]&&ab[t]-fy<xx[9]+xx[2]){aa[t]=xx[8]+xx[1]+fx;ac[t]=0;amuki[t]=1;xx[27]=1;}
+          // こうらブレイク
+          if(xx[27]===1&&(ttype[tt]===7||ttype[tt]===1)&&atype[t]===2){
+            if(ttype[tt]===7){ot(4);ttype[tt]=3;eyobi(ta[tt]+10,tb[tt],0,-800,0,40,3000,3000,0,16);}
+            else if(ttype[tt]===1){ot(3);eyobi(ta[tt]+1200,tb[tt]+1200,300,-1000,0,160,1000,1000,1,120);eyobi(ta[tt]+1200,tb[tt]+1200,-300,-1000,0,160,1000,1000,1,120);eyobi(ta[tt]+1200,tb[tt]+1200,240,-1400,0,160,1000,1000,1,120);eyobi(ta[tt]+1200,tb[tt]+1200,-240,-1400,0,160,1000,1000,1,120);brockbreak(tt);}
+          }
+        }
+      }
+      if(atype[t]===86||atype[t]===90){
+        if(aa[t]+anobia[t]-fx>xx[8]&&aa[t]-fx<xx[8]+xx[1]&&ab[t]+anobib[t]-fy>xx[9]&&ab[t]-fy<xx[9]+xx[1]){
+          ot(3);
+          eyobi(ta[tt]+1200,tb[tt]+1200,300,-1000,0,160,1000,1000,1,120);eyobi(ta[tt]+1200,tb[tt]+1200,-300,-1000,0,160,1000,1000,1,120);
+          eyobi(ta[tt]+1200,tb[tt]+1200,240,-1400,0,160,1000,1000,1,120);eyobi(ta[tt]+1200,tb[tt]+1200,-240,-1400,0,160,1000,1000,1,120);
+          brockbreak(tt);
+        }
       }
     }
     // 剣取ってクリア
-    if(ttype[tt2]===140){
-      const x0=200,x1v=3000;
-      if(ab[t]-fy>x9-x0*2-2000&&ab[t]-fy<x9+x1v-x0*2+2000&&aa[t]+anobia[t]-fx>x8-400&&aa[t]-fx<x8+x1v){
-        ta[tt2]=-800000;sracttype[20]=1;sron[20]=1;
+    if(ttype[tt]===140){
+      if(ab[t]-fy>xx[9]-xx[0]*2-2000&&ab[t]-fy<xx[9]+xx[1]-xx[0]*2+2000&&aa[t]+anobia[t]-fx>xx[8]-400&&aa[t]-fx<xx[8]+xx[1]){
+        ta[tt]=-800000;sracttype[20]=1;sron[20]=1;
       }
     }
   }
