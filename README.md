@@ -1,3 +1,4 @@
+https://arurion.github.io/syobon_no_action_HTML/
 しょぼんのアクション(Syobon no action/Syobon action/Cat Mario)をHTML+JSに移植します  
 本家のソースコードなどに含まれていたものを使っています  
   
