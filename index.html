@@ -15,7 +15,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:#000;display:flex;justify-content:center;align-items:center;height:100vh;overflow:hidden;}
-canvas{display:block;image-rendering:-webkit-optimize-contrast;image-rendering:-moz-crisp-edges;image-rendering:pixelated;max-width: 100vw;max-height: 100vh;object-fit: contain;}
+canvas{display:block;image-rendering:pixelated;}
 </style>
 </head>
 <body>
@@ -280,17 +280,19 @@ function DrawRotaGraph(cx,cy, scale, angle, gid, gtype) {
   ctx.restore();
 }
 
-function str(text,x,y,size=20,thickness=6) {
+function strtext,x,y,size=20,thickness=6 {
   ctx.fillStyle=drawColor;
-  ctx.font=`bold ${size}px "MS Gothic","ＭＳ ゴシック",monospace`;
-  ctx.fillText(text,x,y+size);
+  const weight = Math.max100, Math.min900, thickness * 100;
+  ctx.font = `${weight} ${size}px "MS Gothic","ＭＳ ゴシック",monospace`;
+  ctx.textBaseline = 'top';
+  ctx.fillTexttext, x, y;
 }
 
-function DrawFormatString(x,y,col,text,...args){
-  // 簡易版
+function DrawFormatStringx,y,col,text,...args{
   ctx.fillStyle=col||'white';
+  ctx.textBaseline='alphabetic';
   ctx.font='bold 20px "MS Gothic",monospace';
-  ctx.fillText(String(text),x,y+20);
+  ctx.fillTextStringtext,x,y+20;
 }
 
 // ====== キー入力 ======
@@ -2276,14 +2278,22 @@ function rpaint(){
     }
 
     // mainmsgtype
-    if(mainmsgtype>=1){
-      if(mainmsgtype===1){setcolor(255,255,255);str('WELCOME TO OWATA ZONE',126,100);str('1',88,210);str('1',88+143,210);str('1',88+286,210);}
+    ifmainmsgtype >= 1{
+      setcolor255,255,255;
+      ifmainmsgtype === 1{
+        str'WELCOME TO OWATA ZONE', 126, 100, 20, 4;
+        forlet t2=0; t2<=2; t2++{
+          str'1', 88 + t2 * 143, 210, 20, 4;
+        }
+      }
     }
   }
 
   // ====== スタッフロール ======
-  if(main_state===2){
-    setcolor(255,255,255);
+  ifmain_state===2{
+    setcolor0,0,0; fillrect0,0,W,H;
+    setcolor255,255,255;
+    ctx.font = `bold 20px "ＭＳ ゴシック", "MS Gothic", monospace`;
     const txts=[
       [12,'制作・プレイに関わった方々',12],
       [13,'ステージ１　プレイ',13],
@@ -2318,10 +2328,8 @@ function rpaint(){
   if(main_state===10){
     setc0();fillrect(0,0,W,H);
     drawimage(0,0,190,190);
-    setcolor(255,255,255);
-    ctx.font='bold 20px monospace';
-    ctx.fillStyle='white';
-    ctx.fillText(` × ${nokori}`,230,215);
+    setcolor255,255,255;
+    str` × ${nokori}`, 230, 200;
   }
 
   // ====== タイトル ======
@@ -2333,7 +2341,7 @@ function rpaint(){
       const ti=IMG[titleDef.imgKey];
       ctx.drawImage(ti,W/2-ti.width/2,60);
     }else{
-      setcolor(50,50,150);ctx.font='bold 28px monospace';ctx.fillText('しょぼんのアクション',60,110);
+      setcolor50,50,150; ctx.textBaseline='alphabetic'; ctx.font='bold 28px monospace'; ctx.fillText'しょぼんのアクション',60,110;
     }
     drawimage(0,4,12*30,10*29-12);
     drawimage(1,4,6*30,12*29-12);
@@ -2371,7 +2379,7 @@ function ttmsg(){
       const a = lines[li][0];
       const text = lines[li][1];
       setc1();
-      str(text, mx+6, my+6+a*24, 16, 4);
+      strtext, mx+6, my+6+a*24, 20, 5;
     }
   }
   if(tmsgtype===3){
