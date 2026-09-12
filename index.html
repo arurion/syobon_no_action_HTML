@@ -280,8 +280,8 @@ function DrawRotaGraph(cx,cy, scale, angle, gid, gtype) {
   ctx.restore();
 }
 
-function str(text,x,y,size=20,thickness=6 {
-  ctx.fillStyle=drawColor);
+function str(text,x,y,size=20,thickness=6) {
+  ctx.fillStyle=drawColor;
   const weight = Math.max(100, Math.min(900, thickness * 100));
   ctx.font = `${weight} ${size}px "MS Gothic","ＭＳ ゴシック",monospace`;
   ctx.textBaseline = 'top';
@@ -933,7 +933,7 @@ function stagep(){
     txtype[tco] = 4; tyobi(70 * 29, 8 * 29 - 12, 300);
 
     for (let t = 0; t <= 2; t++) {
-      txtype[tco] = 3; tyobi((58 + t) * 29, 13 * 29 - 12, 115);
+      txtype[tco] = 1; tyobi((58 + t) * 29, 13 * 29 - 12, 115);
     }
 
     txtype[tco] = 0; tyobi(111 * 29, 6 * 29 - 12, 301);
@@ -1376,7 +1376,10 @@ function Mainprogram(){
                 }
               }
             }
-            // コイン量産系
+            }
+        }
+
+        // コイン量産系
             if(ttype[t]===100){
               if(mb>x9-xx0*2-2000&&mb<x9+xx1-xx0*2+2000&&ma+mnobia>x8-400&&ma<x8+xx1&&md<=0){
                 if(txtype[t]===0)tb[t]=mb+fy-1200-xx1;
@@ -1462,8 +1465,6 @@ function Mainprogram(){
               eyobi(ta[t]+1200,tb[t]+1200,300,-1000,0,160,1000,1000,1,120);eyobi(ta[t]+1200,tb[t]+1200,-300,-1000,0,160,1000,1000,1,120);
               eyobi(ta[t]+1200,tb[t]+1200,240,-1400,0,160,1000,1000,1,120);eyobi(ta[t]+1200,tb[t]+1200,-240,-1400,0,160,1000,1000,1,120);
               brockbreak(t);
-            }
-          }
         }
         if(ttype[t]===800){
           if(mb>x9-xx0*2-2000&&mb<x9+xx1-xx0*2+2000&&ma+mnobia>x8-400&&ma<x8+xx1){ta[t]=-800000;ot(4);}
@@ -1610,8 +1611,8 @@ function Mainprogram(){
 
       switch(sracttype[sri]){
         case 1:if(sron[sri]===1)srf[sri]=60;break;
-        case 2:if(srmuki[sri]===0)sra[sri]-=srsok[sri];else sra[sri]+=srsok[sri];break;
-        case 3:if(srmuki[sri]===0)srb[sri]-=srsok[sri];else srb[sri]+=srsok[sri];break;
+        case 2:break;
+        case 3:break;
         case 5:
           if(srmove[sri]===0)srmuki[sri]=0;else srmuki[sri]=1;
           if(srb[sri]-fy<-2100)srb[sri]=fymax+fy+2000;
@@ -2087,7 +2088,7 @@ function rpaint(){
     // リフト
     for(let sri=0;sri<SRMAX;sri++){
       if(sra[sri]<=-9e5)continue;
-      if(sra[sri]-fx+src[sri]<-12010 || sra[sri]-fx>fxmax+12100 || Math.floor(src[sri]/100)<1)continue;
+      if(sra[sri]-fx+src[sri]<-10 || srb[sri]-fy>fxmax+12100 || Math.floor(src[sri]/100)<1)continue;
       const srx=(sra[sri]-fx)/100,sry=(srb[sri]-fy)/100;
       const srw=src[sri]/100;
       const sp=srsp[sri];
