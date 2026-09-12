@@ -1307,17 +1307,19 @@ function Mainprogram(){
     if(mb>=38000&&mhp>=0&&stagecolor===4){mhp=-2;mmsgtm=30;mmsgtype=55;}
     if(mb>=52000&&mhp>=0)mhp=-2;
 
-    // ====== ブロック判定(元コードそのまま) ======
+// ====== ブロック判定(元コードそのまま) ======
     xx[15]=0;
     for(t=0;t<TMAX;t++){
       if(ta[t]<=-9e5)continue;
       const xx0=200,xx1=3000,xx2=1000,xx3=3000;
       const x8=ta[t]-fx,x9=tb[t]-fy;
       if(ta[t]-fx+xx1<-10-xx3||ta[t]-fx>fxmax+12000+xx3)continue;
+
       if(mtype!==200&&mtype!==1&&mtype!==2){
+        let xx16=0,xx17=0; // ←スコープを外側に出してエラーを防止
+
         if(ttype[t]<1000&&ttype[t]!==800&&ttype[t]!==140&&ttype[t]!==141){
           if(!(mztype===1)){
-            let xx16=0,xx17=0;
             // 上
             if(ttype[t]!==7&&ttype[t]!==110&&!(ttype[t]===114)){
               if(ma+mnobia>x8+xx0*2+100&&ma<x8+xx1-xx0*2-100&&mb+mnobib>x9&&mb+mnobib<x9+xx1&&md>=-100){
@@ -1342,7 +1344,7 @@ function Mainprogram(){
               }
             }
 
-			// 下・左右
+            // 下・左右
             let ord_bot = 0;
             let ord_lr = 1;
             // 接地中またはジャンプ発動直後は、下からの判定をスキップする（ord_botを3にして一致させない）
@@ -1376,95 +1378,93 @@ function Mainprogram(){
                 }
               }
             }
-            }
+          }
         }
 
         // コイン量産系
-            if(ttype[t]===100){
-              if(mb>x9-xx0*2-2000&&mb<x9+xx1-xx0*2+2000&&ma+mnobia>x8-400&&ma<x8+xx1&&md<=0){
-                if(txtype[t]===0)tb[t]=mb+fy-1200-xx1;
-              }
-              // 叩こうとすると逃げるフェイント処理
-              if(txtype[t]===1){
-                if(xx17===1){
-                  if(ma+mnobia>x8-400 && ma<x8+xx1/2-1500){ta[t]+=3000;}
-                  else if(ma+mnobia>=x8+xx1/2-1500 && ma<x8+xx1){ta[t]-=3000;}
-                }
-              }
-              if(xx17===1&&txtype[t]===0){ot(4);eyobi(ta[t]+10,tb[t],0,-800,0,40,3000,3000,0,16);ttype[t]=3;}
+        if(ttype[t]===100){
+          if(mb>x9-xx0*2-2000&&mb<x9+xx1-xx0*2+2000&&ma+mnobia>x8-400&&ma<x8+xx1&&md<=0){
+            if(txtype[t]===0)tb[t]=mb+fy-1200-xx1;
+          }
+          // 叩こうとすると逃げるフェイント処理
+          if(txtype[t]===1){
+            if(xx17===1){
+              if(ma+mnobia>x8-400 && ma<x8+xx1/2-1500){ta[t]+=3000;}
+              else if(ma+mnobia>=x8+xx1/2-1500 && ma<x8+xx1){ta[t]-=3000;}
             }
-            if(ttype[t]===101&&xx17===1){
-              ot(8);ttype[t]=3;abrocktm[aco]=16;
-              if(txtype[t]===0)ayobi(ta[t],tb[t],0,0,0,0,0);
-              if(txtype[t]===1)ayobi(ta[t],tb[t],0,0,0,4,0);
-              if(txtype[t]===3)ayobi(ta[t],tb[t],0,0,0,101,0);
-              if(txtype[t]===4){abrocktm[aco]=20;ayobi(ta[t]-400,tb[t]-1600,0,0,0,6,0);}
+          }
+          if(xx17===1&&txtype[t]===0){ot(4);eyobi(ta[t]+10,tb[t],0,-800,0,40,3000,3000,0,16);ttype[t]=3;}
+        }
+        if(ttype[t]===101&&xx17===1){
+          ot(8);ttype[t]=3;abrocktm[aco]=16;
+          if(txtype[t]===0)ayobi(ta[t],tb[t],0,0,0,0,0);
+          if(txtype[t]===1)ayobi(ta[t],tb[t],0,0,0,4,0);
+          if(txtype[t]===3)ayobi(ta[t],tb[t],0,0,0,101,0);
+          if(txtype[t]===4){abrocktm[aco]=20;ayobi(ta[t]-400,tb[t]-1600,0,0,0,6,0);}
+        }
+        if(ttype[t]===102&&xx17===1){
+          ot(8);ttype[t]=3;abrocktm[aco]=16;
+          if(txtype[t]===0)ayobi(ta[t],tb[t],0,0,0,100,0);
+          if(txtype[t]===2)ayobi(ta[t],tb[t],0,0,0,100,2);
+          if(txtype[t]===3)ayobi(ta[t],tb[t],0,0,0,102,1);
+        }
+        if(ttype[t]===103&&xx17===1){ot(8);ttype[t]=3;abrocktm[aco]=16;ayobi(ta[t],tb[t],0,0,0,100,1);}
+        if(ttype[t]===104&&xx17===1){ot(8);ttype[t]=3;abrocktm[aco]=16;ayobi(ta[t],tb[t],0,0,0,110,0);}
+        // 毒きのこ量産
+        if(ttype[t]===110&&xx17===1){ttype[t]=111;thp[t]=999;}
+        if(ttype[t]===111&&ta[t]-fx>=0){thp[t]++;if(thp[t]>=16){thp[t]=0;ot(8);abrocktm[aco]=16;ayobi(ta[t],tb[t],0,0,0,102,1);}}
+        // コイン量産
+        if(ttype[t]===112&&xx17===1){ttype[t]=113;thp[t]=999;titem[t]=0;}
+        if(ttype[t]===113&&ta[t]-fx>=0){if(titem[t]<=19)thp[t]++;if(thp[t]>=3){thp[t]=0;titem[t]++;ot(4);eyobi(ta[t]+10,tb[t],0,-800,0,40,3000,3000,0,16);}}
+        // 隠し毒きのこ
+        if(ttype[t]===114&&xx17===1){
+          if(txtype[t]===0){ot(8);ttype[t]=3;abrocktm[aco]=16;ayobi(ta[t],tb[t],0,0,0,102,1);}
+          if(txtype[t]===2){ot(4);eyobi(ta[t]+10,tb[t],0,-800,0,40,3000,3000,0,16);ttype[t]=115;txtype[t]=0;}
+          if(txtype[t]===10){
+            if(stageonoff===1){
+              ttype[t]=130;stageonoff=0;ot(13);txtype[t]=2;
+              for(t=0;t<AMAX;t++){if(atype[t]===87){if(axtype[t]===105){axtype[t]=110;}}}
+            }else{
+              ot(4);eyobi(ta[t]+10,tb[t],0,-800,0,40,3000,3000,0,16);ttype[t]=3;
             }
-            if(ttype[t]===102&&xx17===1){
-              ot(8);ttype[t]=3;abrocktm[aco]=16;
-              if(txtype[t]===0)ayobi(ta[t],tb[t],0,0,0,100,0);
-              if(txtype[t]===2)ayobi(ta[t],tb[t],0,0,0,100,2);
-              if(txtype[t]===3)ayobi(ta[t],tb[t],0,0,0,102,1);
+          }
+        }
+        // Pスイッチ
+        if(ttype[t]===116&&xx17===1){ot(8);ttype[t]=3;tyobi(ta[t]/100,(tb[t]/100)-29,400);}
+        // ファイアバー強化
+        if(ttype[t]===124&&xx17===1){
+          ot(13);
+          for(t=0;t<AMAX;t++){if(atype[t]===87&&axtype[t]===101)axtype[t]=120;}
+          ttype[t]=3;
+        }
+        // ONスイッチ
+        if(ttype[t]===130){
+          if(xx17===1){
+            if(txtype[t]!==1){
+              stageonoff=0;ot(13);
             }
-            if(ttype[t]===103&&xx17===1){ot(8);ttype[t]=3;abrocktm[aco]=16;ayobi(ta[t],tb[t],0,0,0,100,1);}
-            if(ttype[t]===104&&xx17===1){ot(8);ttype[t]=3;abrocktm[aco]=16;ayobi(ta[t],tb[t],0,0,0,110,0);}
-            // 毒きのこ量産
-            if(ttype[t]===110&&xx17===1){ttype[t]=111;thp[t]=999;}
-            if(ttype[t]===111&&ta[t]-fx>=0){thp[t]++;if(thp[t]>=16){thp[t]=0;ot(8);abrocktm[aco]=16;ayobi(ta[t],tb[t],0,0,0,102,1);}}
-            // コイン量産
-            if(ttype[t]===112&&xx17===1){ttype[t]=113;thp[t]=999;titem[t]=0;}
-            if(ttype[t]===113&&ta[t]-fx>=0){if(titem[t]<=19)thp[t]++;if(thp[t]>=3){thp[t]=0;titem[t]++;ot(4);eyobi(ta[t]+10,tb[t],0,-800,0,40,3000,3000,0,16);}}
-            // 隠し毒きのこ
-            if(ttype[t]===114&&xx17===1){
-              if(txtype[t]===0){ot(8);ttype[t]=3;abrocktm[aco]=16;ayobi(ta[t],tb[t],0,0,0,102,1);}
-              if(txtype[t]===2){ot(4);eyobi(ta[t]+10,tb[t],0,-800,0,40,3000,3000,0,16);ttype[t]=115;txtype[t]=0;}
-              if(txtype[t]===10){
-                if(stageonoff===1){
-                  ttype[t]=130;stageonoff=0;ot(13);txtype[t]=2;
-                  // 本家の変数t上書きバグを完全再現 (グローバルtがAMAX=24に上書きされる)
-                  for(t=0;t<AMAX;t++){if(atype[t]===87){if(axtype[t]===105){axtype[t]=110;}}}
-                }else{
-                  ot(4);eyobi(ta[t]+10,tb[t],0,-800,0,40,3000,3000,0,16);ttype[t]=3;
-                }
-              }
+          }
+        }
+        else if(ttype[t]===131){
+          if(xx17===1&&txtype[t]!==2){
+            stageonoff=1;ot(13);
+            if(txtype[t]===1){
+              for(t=0;t<AMAX;t++){if(atype[t]===87){if(axtype[t]===105){axtype[t]=110;}}}
+              bxtype[3]=105;
             }
-            // Pスイッチ
-            if(ttype[t]===116&&xx17===1){ot(8);ttype[t]=3;tyobi(ta[t]/100,(tb[t]/100)-29,400);}
-            // ファイアバー強化
-            if(ttype[t]===124&&xx17===1){
-              ot(13);
-              for(t=0;t<AMAX;t++){if(atype[t]===87&&axtype[t]===101)axtype[t]=120;}
-              ttype[t]=3;
-            }
-            // ONスイッチ
-            if(ttype[t]===130){
-              if(xx17===1){
-                if(txtype[t]!==1){
-                  stageonoff=0;ot(13);
-                }
-              }
-            }
-            else if(ttype[t]===131){
-              if(xx17===1&&txtype[t]!==2){
-                stageonoff=1;ot(13);
-                if(txtype[t]===1){
-                  // 本家の変数t上書きバグを完全再現 (グローバルtがAMAX=24に上書きされる)
-                  for(t=0;t<AMAX;t++){if(atype[t]===87){if(axtype[t]===105){axtype[t]=110;}}}
-                  bxtype[3]=105;
-                }
-              }
-            }
-            // ヒント
-            if(ttype[t]===300&&xx17===1){
-              ot(15);
-              if(txtype[t]<=100){tmsgtype=1;tmsgtm=15;tmsgy=300+(txtype[t]-1);tmsg=txtype[t];}
-              if(txtype[t]===540){tmsgtype=1;tmsgtm=15;tmsgy=400;tmsg=100;txtype[t]=541;}
-            }
-            if(ttype[t]===301&&xx17===1){
-              ot(3);
-              eyobi(ta[t]+1200,tb[t]+1200,300,-1000,0,160,1000,1000,1,120);eyobi(ta[t]+1200,tb[t]+1200,-300,-1000,0,160,1000,1000,1,120);
-              eyobi(ta[t]+1200,tb[t]+1200,240,-1400,0,160,1000,1000,1,120);eyobi(ta[t]+1200,tb[t]+1200,-240,-1400,0,160,1000,1000,1,120);
-              brockbreak(t);
+          }
+        }
+        // ヒント
+        if(ttype[t]===300&&xx17===1){
+          ot(15);
+          if(txtype[t]<=100){tmsgtype=1;tmsgtm=15;tmsgy=300+(txtype[t]-1);tmsg=txtype[t];}
+          if(txtype[t]===540){tmsgtype=1;tmsgtm=15;tmsgy=400;tmsg=100;txtype[t]=541;}
+        }
+        if(ttype[t]===301&&xx17===1){
+          ot(3);
+          eyobi(ta[t]+1200,tb[t]+1200,300,-1000,0,160,1000,1000,1,120);eyobi(ta[t]+1200,tb[t]+1200,-300,-1000,0,160,1000,1000,1,120);
+          eyobi(ta[t]+1200,tb[t]+1200,240,-1400,0,160,1000,1000,1,120);eyobi(ta[t]+1200,tb[t]+1200,-240,-1400,0,160,1000,1000,1,120);
+          brockbreak(t);
         }
         if(ttype[t]===800){
           if(mb>x9-xx0*2-2000&&mb<x9+xx1-xx0*2+2000&&ma+mnobia>x8-400&&ma<x8+xx1){ta[t]=-800000;ot(4);}
