@@ -288,11 +288,12 @@ function str(text,x,y,size=20,thickness=6) {
   ctx.fillText(text, x, y);
 }
 
-function DrawFormatString(x,y,col,text,...args) {
-  ctx.fillStyle=col||'white';
-  ctx.textBaseline='alphabetic';
-  ctx.font='bold 20px "MS Gothic",monospace';
-  ctx.fillText(String(text), x, y + 20);
+// 修正後: textBaseline を 'top' にし、y+20 を y に変更
+function DrawFormatString(x, y, col, text, ...args) {
+  ctx.fillStyle = col || 'white';
+  ctx.textBaseline = 'top';
+  ctx.font = 'bold 20px "MS Gothic",monospace';
+  ctx.fillText(String(text), x, y);
 }
 
 // ====== キー入力 ======
@@ -2348,7 +2349,7 @@ function rpaint(){
     drawimage(1,4,6*30,12*29-12);
     drawimage(0,0,2*30,12*29-12-6);
     for(let tl=0;tl<=16;tl++){drawimage(5,1,29*tl,13*29-12);drawimage(6,1,29*tl,14*29-12);}
-    setc0();str('Prece Enter Key',W/2-8*20/2,250);
+    setc0();str('Prece Enter Key ',W/2-8*20/2,250);
   }
 
   // 画面黒
@@ -2380,7 +2381,8 @@ function ttmsg(){
       const a = lines[li][0];
       const text = lines[li][1];
       setc1();
-      str(text, mx+6, my+6+a*24, 20, 5);
+      // フォントサイズを 18px、行送りを 22px、余白を微調整
+      str(text, mx+10, my+8+a*22, 18, 5);
     }
   }
   if(tmsgtype===3){
