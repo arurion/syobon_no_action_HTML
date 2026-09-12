@@ -2278,12 +2278,12 @@ function rpaint(){
       }
     }
 
-    // mainmsgtype
-    ifmainmsgtype >= 1{
-      setcolor(255,255,255);
-      ifmainmsgtype === 1{
+	// mainmsgtype
+    if (mainmsgtype >= 1) {
+      setcolor(255, 255, 255);
+      if (mainmsgtype === 1) {
         str('WELCOME TO OWATA ZONE', 126, 100, 20, 4);
-        for (let t2=0; t2<=2; t2++) {
+        for (let t2 = 0; t2 <= 2; t2++) {
           str('1', 88 + t2 * 143, 210, 20, 4);
         }
       }
@@ -2291,9 +2291,9 @@ function rpaint(){
   }
 
   // ====== スタッフロール ======
-  ifmain_state===2{
-    setcolor(0,0,0); fillrect(0,0,W,H);
-    setcolor(255,255,255);
+  if (main_state === 2) {
+    setcolor(0, 0, 0); fillrect(0, 0, W, H);
+    setcolor(255, 255, 255);
     ctx.font = `bold 20px "ＭＳ ゴシック", "MS Gothic", monospace`;
     const txts=[
       [12,'制作・プレイに関わった方々',12],
