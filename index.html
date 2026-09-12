@@ -280,19 +280,19 @@ function DrawRotaGraph(cx,cy, scale, angle, gid, gtype) {
   ctx.restore();
 }
 
-function strtext,x,y,size=20,thickness=6 {
-  ctx.fillStyle=drawColor;
-  const weight = Math.max100, Math.min900, thickness * 100;
+function str(text,x,y,size=20,thickness=6 {
+  ctx.fillStyle=drawColor);
+  const weight = Math.max(100, Math.min(900, thickness * 100));
   ctx.font = `${weight} ${size}px "MS Gothic","ＭＳ ゴシック",monospace`;
   ctx.textBaseline = 'top';
-  ctx.fillTexttext, x, y;
+  ctx.fillText(text, x, y);
 }
 
-function DrawFormatStringx,y,col,text,...args{
+function DrawFormatString(x,y,col,text,...args) {
   ctx.fillStyle=col||'white';
   ctx.textBaseline='alphabetic';
   ctx.font='bold 20px "MS Gothic",monospace';
-  ctx.fillTextStringtext,x,y+20;
+  ctx.fillText(String(text), x, y + 20);
 }
 
 // ====== キー入力 ======
@@ -2279,11 +2279,11 @@ function rpaint(){
 
     // mainmsgtype
     ifmainmsgtype >= 1{
-      setcolor255,255,255;
+      setcolor(255,255,255);
       ifmainmsgtype === 1{
-        str'WELCOME TO OWATA ZONE', 126, 100, 20, 4;
-        forlet t2=0; t2<=2; t2++{
-          str'1', 88 + t2 * 143, 210, 20, 4;
+        str('WELCOME TO OWATA ZONE', 126, 100, 20, 4);
+        for (let t2=0; t2<=2; t2++) {
+          str('1', 88 + t2 * 143, 210, 20, 4);
         }
       }
     }
@@ -2291,8 +2291,8 @@ function rpaint(){
 
   // ====== スタッフロール ======
   ifmain_state===2{
-    setcolor0,0,0; fillrect0,0,W,H;
-    setcolor255,255,255;
+    setcolor(0,0,0); fillrect(0,0,W,H);
+    setcolor(255,255,255);
     ctx.font = `bold 20px "ＭＳ ゴシック", "MS Gothic", monospace`;
     const txts=[
       [12,'制作・プレイに関わった方々',12],
@@ -2328,8 +2328,8 @@ function rpaint(){
   if(main_state===10){
     setc0();fillrect(0,0,W,H);
     drawimage(0,0,190,190);
-    setcolor255,255,255;
-    str` × ${nokori}`, 230, 200;
+    setcolor(255,255,255);
+    str(` × ${nokori}`, 230, 200);
   }
 
   // ====== タイトル ======
@@ -2341,7 +2341,7 @@ function rpaint(){
       const ti=IMG[titleDef.imgKey];
       ctx.drawImage(ti,W/2-ti.width/2,60);
     }else{
-      setcolor50,50,150; ctx.textBaseline='alphabetic'; ctx.font='bold 28px monospace'; ctx.fillText'しょぼんのアクション',60,110;
+      setcolor(50,50,150); ctx.textBaseline='alphabetic'; ctx.font='bold 28px monospace'; ctx.fillText('しょぼんのアクション',60,110);
     }
     drawimage(0,4,12*30,10*29-12);
     drawimage(1,4,6*30,12*29-12);
@@ -2379,7 +2379,7 @@ function ttmsg(){
       const a = lines[li][0];
       const text = lines[li][1];
       setc1();
-      strtext, mx+6, my+6+a*24, 20, 5;
+      str(text, mx+6, my+6+a*24, 20, 5);
     }
   }
   if(tmsgtype===3){
